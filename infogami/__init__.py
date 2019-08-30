@@ -3,9 +3,9 @@ from __future__ import print_function
 
 __version__ = "0.5dev"
 
-import web
-import .config
 import sys
+import web
+from . import config
 
 usage = """
 Infogami
