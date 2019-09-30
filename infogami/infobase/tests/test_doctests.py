@@ -29,3 +29,16 @@ def test_doctest(module):
         failures, tries = runner.run(test)
         if failures:
             pytest.fail("doctest failed: " + test.name)
+
+def find_doctests(modules):
+    finder = doctest.DocTestFinder()
+    for m in modules:
+        mod = __import__(m, None, None, ['x'])
+        for t in finder.find(mod, mod.__name__):
+            yield t
+
+def run_doctest(test):
+    runner = doctest.DocTestRunner(verbose=True)
+    failures, tries = runner.run(test)
+    if failures:
+        pytest.fail("doctest failed: " + test.name)
