@@ -8,14 +8,12 @@ import re
 
 import six
 
-import infogami.utils.delegate as infogami_delegate  # create app before importing delegate
 import simplejson
 import web
 from infogami.utils import flash
 
 urls = ("/.*", "item")
 app = web.application(urls, globals(), autoreload=False)
-
 
 # magical metaclasses for registering special paths and modes.
 # Whenever any class extends from page/mode, an entry is added to pages/modes.
@@ -62,27 +60,31 @@ class metaview(type):
                     views[suffix][t] = self
 
 
-class mode(six.with_metaclass(metamode)):
+@six.add_metaclass(metamode)
+class mode(object):
     def HEAD(self, *a):
         return self.GET(*a)
 
     def GET(self, *a):
         return web.nomethod(web.ctx.method)
 
-class page(six.with_metaclass(metapage)):
+@six.add_metaclass(metapage)
+class page(object):
     def HEAD(self, *a):
         return self.GET(*a)
 
     def GET(self, *a):
         return web.nomethod(web.ctx.method)
 
-class view(six.with_metaclass(metaview)):
+@six.add_metaclass(metaview)
+class view(object):
     suffix = None
     types = None
 
     def emit_json(self, data):
+        from infogami.utils.delegate import RawText
         web.header('Content-Type', 'application/json')
-        return infogami_delegate.RawText(simplejson.dumps(data))
+        return RawText(simplejson.dumps(data))
 
     def delegate(self, page):
         converters = {"json" : self.emit_json}

@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os.path
 import re
 
@@ -5,8 +7,8 @@ from six import string_types
 import web
 
 from infogami import config
-from infogami.utils import features, i18n
-from infogami.utils.app import *
+from infogami.utils import app, features, i18n
+from infogami.utils.app import app
 from infogami.utils.context import context
 from infogami.utils.view import render_site, public
 
