@@ -1,20 +1,21 @@
 """Infogami application.
 """
+from __future__ import absolute_import
+
 import collections
 import os
 import re
 
-import simplejson
-
-import web
-
-from infogami.utils import flash
 import six
+
+import infogami.utils.delegate as infogami_delegate  # create app before importing delegate
+import simplejson
+import web
+from infogami.utils import flash
 
 urls = ("/.*", "item")
 app = web.application(urls, globals(), autoreload=False)
 
-import delegate as infogami_delegate  # create app before importing delegate
 
 # magical metaclasses for registering special paths and modes.
 # Whenever any class extends from page/mode, an entry is added to pages/modes.
