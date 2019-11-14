@@ -54,7 +54,7 @@ def parse_data(d, level=0):
         >>> true = {'type': '/type/boolean', 'value': 'true'}
 
         >>> parse_data(text)  # doctest: +ELLIPSIS
-        <text: ...'foo'>
+        <text: ... 'foo'>
         >>> parse_data(date)
         datetime.datetime(2009, 1, 2, 3, 4, 5)
         >>> parse_data(true)
@@ -62,11 +62,11 @@ def parse_data(d, level=0):
         >>> parse_data({'key': '/type/type'})
         <Storage {'key': '/type/type'}>
         >>> parse_data({'key': '/type/type'}, level=1)  # doctest: +ELLIPSIS
-        <ref: ...'/type/type'>
+        <ref: ... '/type/type'>
         >>> parse_data([text, date, true])  # doctest: +ELLIPSIS
-        [<text: ...'foo'>, datetime.datetime(2009, 1, 2, 3, 4, 5), True]
+        [<text: ... 'foo'>, datetime.datetime(2009, 1, 2, 3, 4, 5), True]
         >>> parse_data({'a': text, 'b': date})  # doctest: +ELLIPSIS
-        <Storage {'a': <text: ...'foo'>, 'b': datetime.datetime(2009, 1, 2, 3, 4, 5)}>
+        <Storage {'a': <text: ... 'foo'>, 'b': datetime.datetime(2009, 1, 2, 3, 4, 5)}>
 
         >>> parse_query({'works': {'connect': 'update_list', 'value': [{'key': '/w/OL1W'}]}, 'key': '/b/OL1M'})
         <Storage {'works': <Storage {'connect': 'update_list', 'value': [<ref: u'/w/OL1W'>]}>, 'key': '/b/OL1M'}>
@@ -93,11 +93,11 @@ def format_data(d):
         >>> format_data('hello')
         'hello'
         >>> format_data(Text('hello'))  # doctest: +ELLIPSIS
-        {'type': '/type/text', 'value': ...'hello'}
+        {'type': '/type/text', 'value': ... 'hello'}
         >>> format_data(datetime.datetime(2009, 1, 2, 3, 4, 5))
         {'type': '/type/datetime', 'value': '2009-01-02T03:04:05'}
         >>> format_data(Reference('/type/type'))  # doctest: +ELLIPSIS
-        {'key': ...'/type/type'}
+        {'key': ... '/type/type'}
     """
     if isinstance(d, dict):
         return {k: format_data(v) for k, v in iteritems(d)}
@@ -127,11 +127,11 @@ def create_test_store():
     >>> json = store.get('/type/type')
     >>> t = Thing.from_json(store, u'/type/type', json)
     >>> t  # doctest: +ELLIPSIS
-    <thing: ...'/type/type'>
+    <thing: ... '/type/type'>
     >>> t.properties[0]  # doctest: +ELLIPSIS
-    <Storage {'expected_type': <thing: ...'/type/string'>, 'unique': True, 'name': 'name'}>
+    <Storage {'expected_type': <thing: ... '/type/string'>, 'unique': True, 'name': 'name'}>
     >>> t.properties[0].expected_type.key  # doctest: +ELLIPSIS
-    ...'/type/string'
+    ... '/type/string'
     """
     class Store(web.storage):
         def get(self, key, revision=None):
