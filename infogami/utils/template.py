@@ -10,6 +10,7 @@ template from multiple template sources and error handling.
 """
 import os
 import time
+import traceback
 
 import web
 
@@ -75,7 +76,7 @@ class DiskTemplateSource(web.storage):
         t = dict.__getitem__(self, name)
         if isinstance(t, LazyTemplate):
             t = t.func()
-        elif web.config.debug == True and self.is_template_modified(t):
+        elif web.config.debug and self.is_template_modified(t):
             t = self.get_template(t.filepath)
             self[name] = t
 
@@ -151,13 +152,9 @@ def saferender(templates, *a, **kw):
             if i.debug.lower() == "true":
                 raise
 
-            from . import delegate
+            from . import delegate, view  # avoids circular imports
             delegate.register_exception()
-
-            from . import traceback
             traceback.print_exc()
-
-            from . import view
             message = str(t.filename) + ': error in processing template: ' + e.__class__.__name__ + ': ' + str(e) + ' (falling back to default template)'
             view.add_flash_message('error', message)
 
