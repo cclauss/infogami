@@ -3,6 +3,8 @@ Support for Internationalization.
 """
 from __future__ import print_function
 
+import traceback
+
 import web
 
 DEFAULT_LANG = 'en'
@@ -108,6 +110,9 @@ class i18n_string:
             a = [x or "" for x in a]
             return str(self) % tuple(web.safestr(x) for x in a)
         except:
+            traceback.print_exc()
+            import sys
+            sys.exit('__call__()')
             print('failed to substitute (%s/%s) in language %s' % (self._namespace, self._key, web.ctx.lang), file=web.debug)
         return str(self)
 
@@ -141,8 +146,9 @@ def i18n_loadhook():
     try:
         web.ctx.lang = parse_query_string() or parse_lang_cookie() or parse_lang_header() or ''
     except:
-        import traceback
         traceback.print_exc()
+        import sys
+        sys.exit('i18n_loadhook')
         web.ctx.lang = None
 
 def find(path, pattern):
@@ -191,8 +197,9 @@ def load_strings(plugin_path):
             data = read_strings(p)
             strings._update_strings(namespace, lang, data)
         except:
-            import traceback
             traceback.print_exc()
+            import sys
+            sys.exit('load_strings()')
             print("failed to load strings from", p, file=web.debug)
 
 # global state
