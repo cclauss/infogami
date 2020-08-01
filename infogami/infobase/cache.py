@@ -29,7 +29,6 @@ of that request and then they are added to the global cache.
 """
 
 import logging
-import traceback
 
 import web
 
@@ -118,8 +117,7 @@ class Cache:
     def get(self, key, default=None):
         try:
             return self[key]
-        except:
-            traceback.print_exc()
+        except KeyError:
             return default
 
     def __contains__(self, key):
