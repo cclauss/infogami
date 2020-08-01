@@ -29,6 +29,7 @@ The following indexer allows querying for books using lowercase titles and books
                 yield "author,lang", simplejson.dumps([a, doc.lang])
 
 """
+import traceback
 
 import simplejson
 import web
@@ -109,6 +110,7 @@ class Store:
             doc['_key'] = key
             doc['_rev'] = str(id)
         except:
+            traceback.print_exc()
             tx.rollback()
             raise
         else:
@@ -137,6 +139,7 @@ class Store:
                     raise common.Conflict(key=key, message="Document update conflict")
                 self.delete_row(row.id)
         except:
+            traceback.print_exc()
             tx.rollback()
             raise
         else:

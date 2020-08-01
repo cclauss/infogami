@@ -1,5 +1,7 @@
 """High-level sequence API.
 """
+import traceback
+
 
 class SequenceImpl:
     def __init__(self, db):
@@ -29,6 +31,7 @@ class SequenceImpl:
                 value = 1
                 self.db.insert("seq", name=name, value=value)
         except:
+            traceback.print_exc()
             tx.rollback()
             raise
         else:
@@ -44,6 +47,7 @@ class SequenceImpl:
             else:
                 self.db.insert("seq", name=name, value=value)
         except:
+            traceback.print_exc()
             tx.rollback()
             raise
         else:

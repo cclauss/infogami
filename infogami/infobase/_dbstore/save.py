@@ -1,6 +1,7 @@
 """Implementation of save for dbstore.
 """
 from collections import defaultdict
+import traceback
 
 from six import iteritems, string_types
 import simplejson
@@ -63,6 +64,7 @@ class SaveImpl:
 
             self._update_index(records)
         except:
+            traceback.print_exc()
             dbtx.rollback()
             raise
         else:
@@ -115,6 +117,7 @@ class SaveImpl:
         try:
             self.indexUtil.update_index(records)
         except:
+            traceback.print_exc()
             tx.rollback()
             raise
         else:
@@ -175,6 +178,7 @@ class SaveImpl:
                 " FOR UPDATE NOWAIT",
                 vars=locals())
         except:
+            traceback.print_exc()
             raise common.Conflict(keys=keys, reason="Edit conflict detected.")
 
         records = dict((r.key, r) for r in rows)

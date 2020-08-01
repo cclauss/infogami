@@ -5,6 +5,7 @@ All the inserts are merged to give better performance.
 import datetime
 import re
 import tempfile
+import traceback
 
 from six import string_types
 import web
@@ -154,6 +155,7 @@ class BulkUpload:
             self.process_creates(query)
             self.process_inserts(query)
         except:
+            traceback.print_exc()
             web.rollback()
             raise
         else:

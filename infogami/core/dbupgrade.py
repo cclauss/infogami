@@ -2,6 +2,9 @@
 module for doing database upgrades when code changes. 
 """
 from __future__ import print_function
+
+import traceback
+
 import infogami
 from infogami import tdb
 
@@ -33,7 +36,6 @@ def apply_upgrades():
         print('upgrade successful.', file=web.debug)
     except:
         print('upgrade failed', file=web.debug)
-        import traceback
         traceback.print_exc()
         tdb.rollback()
 
@@ -56,6 +58,7 @@ def hash_passwords():
         try:
             preferences = u._c('preferences')
         except:
+            traceback.print_exc()
             # setup preferences for broken accounts, so that they can use forgot password.
             preferences = db.new_version(u, 'preferences', db.get_type(ctx.site,'type/thing'), dict(password=''))
             preferences.save()

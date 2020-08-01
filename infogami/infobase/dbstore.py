@@ -4,6 +4,7 @@
 import datetime
 import logging
 import time
+import traceback
 
 from six import text_type
 
@@ -505,6 +506,7 @@ class DBSiteStore(common.SiteStore):
         try:
             f()
         except:
+            traceback.print_exc()
             t.rollback()
             raise
         else:
@@ -570,6 +572,7 @@ class DBStore(common.Store):
             self.db.select('thing', limit=1)
             return True
         except:
+            traceback.print_exc()
             return False
 
     def create(self, sitename):
@@ -614,6 +617,7 @@ class MultiDBStore(DBStore):
             sitestore.initialize()
             self.sitestores[sitename] = sitestore
         except:
+            traceback.print_exc()
             t.rollback()
             raise
         else:

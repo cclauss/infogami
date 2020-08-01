@@ -10,6 +10,7 @@ import logging
 import os
 import sys
 import time
+import traceback
 
 from six import PY2
 
@@ -142,12 +143,14 @@ def to_int(value, key):
     try:
         return int(value)
     except:
+        traceback.print_exc()
         raise common.BadData(message="Bad integer value for %s: %s" % (repr(key), repr(value)))
 
 def from_json(s):
     try:
         return json.loads(s)
     except ValueError as e:
+        traceback.print_exc()
         raise common.BadData(message="Bad JSON: " + str(e))
 
 _infobase = None

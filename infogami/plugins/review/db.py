@@ -1,3 +1,5 @@
+import traceback
+
 from infogami import core
 import web
 
@@ -33,6 +35,7 @@ class SQL:
             web.delete('review', where="site_id=$site_id AND page_id=$page_id AND user_id=$user_id", vars=locals())
             web.insert('review', site_id=site_id, page_id=page_id, user_id=user_id, revision=revision)
         except:
+            traceback.print_exc()
             web.rollback()
             raise
         else:

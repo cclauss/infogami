@@ -5,6 +5,7 @@ import datetime
 import logging
 import socket
 import time
+import traceback
 
 import simplejson
 from six import iteritems, string_types, text_type, with_metaclass
@@ -86,6 +87,7 @@ class Connection:
             message = data.get('message', '')
             json = error
         except:
+            traceback.print_exc()
             message = error
             json = None
 

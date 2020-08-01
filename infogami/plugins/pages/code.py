@@ -10,6 +10,7 @@ TODOs:
 from __future__ import print_function
 
 import os
+import traceback
 
 from six import iteritems
 import web
@@ -77,6 +78,7 @@ def _savepage(page, create_dependents=True, comment=None):
         try:
             return db.get_version(context.site, name)
         except:
+            traceback.print_exc()
             if create and create_dependents:
                 thing = db.new_version(context.site, name, getthing("type/thing"), {})
                 thing.save()
@@ -180,6 +182,7 @@ def _pushpages(pages):
             print('saving', p.name)
             _savepage(p)
     except:
+        traceback.print_exc()
         tdb.rollback()
         raise
     else:
@@ -265,6 +268,7 @@ def dataload(filename):
             data = storify(eval(line))
             _savepage(data)
     except:
+        traceback.print_exc()
         tdb.rollback()
         raise
     else:

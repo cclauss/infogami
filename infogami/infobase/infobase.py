@@ -8,6 +8,7 @@ Each site is an independent collection of objects.
 from __future__ import print_function
 
 import datetime
+import traceback
 
 import simplejson
 import web
@@ -66,6 +67,7 @@ class Infobase:
             try:
                 listener(event)
             except:
+                traceback.print_exc()
                 common.record_exception()
                 pass
 
@@ -239,7 +241,6 @@ class Site:
                     t(self, old, new)
                 except:
                     print('Failed to execute trigger', t, file=web.debug)
-                    import traceback
                     traceback.print_exc()
 
         if not self._triggers:

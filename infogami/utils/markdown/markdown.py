@@ -28,6 +28,7 @@ from __future__ import print_function
 import codecs
 import re
 import sys
+import traceback
 
 import six
 
@@ -1135,6 +1136,7 @@ class Markdown:
                 module = __import__(extension_module_name)
 
             except :
+                traceback.print_exc()
                 message(CRITICAL,
                         "couldn't load extension %s (looking for %s module)"
                         % (ext, extension_module_name) )
@@ -1760,6 +1762,7 @@ def parse_options() :
     try :
         optparse = __import__("optparse")
     except :
+        traceback.print_exc()
         if len(sys.argv) == 2 :
             return {'input' : sys.argv[1],
                     'output' : None,

@@ -4,6 +4,7 @@ wikitemplates: allow keeping templates and macros in wiki
 from __future__ import print_function
 
 import os
+import traceback
 try:
     from collections.abc import Mapping
 except ImportError:
@@ -204,6 +205,7 @@ def movetemplates(prefix_pattern=None):
                 t.func()
             except:
                 print('unable to load template', t.name, file=web.debug)
+                traceback.print_exc()
                 raise
 
     for name, t in template.disktemplates.items():
